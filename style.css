@@ -63,3 +63,27 @@ nav a { margin-right: 20px; }
   display: block;
   margin-bottom: 20px;
 }
+
+.download {
+  display: inline-block;
+  margin: 12px 0;
+  padding: 14px 20px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+}
+.download:hover { text-decoration: underline; }
+a:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+.purchase-note { color: var(--fg-muted); font-size: 0.88rem; }
+header .tagline { color: var(--fg); font-size: 1.2rem; font-weight: 600; }
+.app-preview { max-width: 360px; margin: 28px auto; }
+.app-preview img { display: block; width: 100%; height: auto; border-radius: 12px; }
+.app-preview figcaption { margin-top: 12px; color: var(--fg-muted); font-size: 0.88rem; }
+
+@media (max-width: 480px) {
+  main { padding-top: 28px; }
+  .download { width: 100%; }
+}
