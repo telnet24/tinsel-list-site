@@ -3,47 +3,259 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tinsel List: Christmas planner and gift list for iPhone</title>
-  <meta name="description" content="Keep Christmas gift ideas, purchases, wrapping and budgets together on your iPhone. Tinsel List works offline, with no account, ads or subscription.">
-  <link rel="canonical" href="https://tinsellist.app/">
+  <meta name="description" content="A private Christmas planner for gift ideas, buying, wrapping, budgets and cards, all on your iPhone.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Tinsel List | Christmas planner for iPhone">
+  <meta property="og:description" content="Gift ideas, shopping, wrapping and budgets, together on your iPhone. One-time purchase. No subscription.">
+  <meta property="og:url" content="https://tinsellist.app/">
+  <meta property="og:image" content="https://tinsellist.app/apple-touch-icon.png">
   <meta name="apple-itunes-app" content="app-id=6808198540">
+  <title>Tinsel List | Christmas planner for iPhone</title>
+  <link rel="canonical" href="https://tinsellist.app/">
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --pine: #173c2d;
+      --pine-deep: #0e2b20;
+      --pine-soft: #285744;
+      --gold: #c79b44;
+      --paper: #f7f3e9;
+      --ink: #19382b;
+      --muted: #637168;
+      --line: #d7d2c5;
+      --white: #fffdf8;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --serif: Iowan Old Style, Baskerville, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.55 var(--sans); }
+    a { color: inherit; }
+    a:focus-visible { outline: 3px solid #165842; outline-offset: 4px; }
+    .wrap { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
+
+    .site-header { position: relative; z-index: 2; color: var(--white); background: var(--pine-deep); }
+    .nav { min-height: 90px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; font: 600 21px/1 var(--serif); letter-spacing: -.02em; }
+    .brand img { width: 38px; height: 38px; border-radius: 9px; }
+    .nav-links { display: flex; align-items: center; gap: 26px; font-size: 14px; }
+    .nav-links a { color: rgba(255,253,248,.82); text-decoration: none; }
+    .nav-links a:hover { color: var(--white); }
+
+    .hero { min-height: 780px; overflow: hidden; position: relative; color: var(--white); background:
+      radial-gradient(ellipse 75% 95% at 80% 20%, rgba(75,133,98,.62), transparent 58%),
+      radial-gradient(ellipse 70% 60% at 10% 95%, rgba(195,148,58,.2), transparent 57%),
+      var(--pine-deep); }
+    .hero::before { content: ""; position: absolute; inset: 0; opacity: .17; background-image: radial-gradient(var(--gold) 1px, transparent 1.4px); background-size: 30px 30px; mask-image: linear-gradient(to bottom, black, transparent 84%); }
+    .hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; gap: 56px; padding: 56px 0 76px; }
+    .hero-copy { padding-bottom: 20px; }
+    h1, h2, h3, p { margin-top: 0; }
+    figure { margin: 0; }
+    img { max-width: 100%; height: auto; }
+    h1 { max-width: 670px; text-wrap: balance; margin-bottom: 23px; font: 500 clamp(3.5rem, 5.2vw, 4.8rem)/1.01 var(--serif); letter-spacing: -.045em; }
+    .hero-copy > p:not(.app-note) { max-width: 520px; margin-bottom: 30px; color: rgba(255,253,248,.78); font-size: 19px; }
+    .badge { display: inline-block; padding: 14px; line-height: 0; }
+    .badge img { width: auto; height: 56px; }
+    .app-note { max-width: 390px; margin: 8px 0 0; color: rgba(255,253,248,.62); font-size: 13px; }
+    .gold-rule { display: block; width: 54px; height: 2px; margin-bottom: 27px; background: var(--gold); }
+
+    .hero-phones { min-height: 614px; position: relative; }
+    .phone { position: absolute; overflow: hidden; margin: 0; border: 7px solid #0b2118; border-radius: 38px; background: #0b2118; box-shadow: 0 34px 70px rgba(0,0,0,.34), 0 0 0 1px rgba(255,255,255,.14); }
+    .phone img { display: block; width: 100%; height: auto; }
+    .phone-home { z-index: 2; width: 282px; top: 9px; left: 130px; transform: rotate(2.3deg); }
+    .phone-gifts { width: 212px; bottom: -24px; left: 0; transform: rotate(-7deg); opacity: .98; }
+    .phone-budget { width: 212px; right: 0; bottom: 3px; transform: rotate(7deg); opacity: .98; }
+
+    .intro { padding: 88px 0 60px; }
+    .intro-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 72px; align-items: start; }
+    h2 { margin-bottom: 25px; font: 500 clamp(2.5rem, 4.3vw, 4.8rem)/1.02 var(--serif); letter-spacing: -.035em; }
+    .intro-copy p { max-width: 550px; margin-bottom: 17px; color: #4f5d54; font-size: 18px; }
+
+    .showcase { overflow: hidden; padding: 22px 0 122px; }
+    .feature-row { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(44px, 9vw, 140px); align-items: center; padding: 92px 0; border-top: 1px solid var(--line); }
+    .feature-row.reverse .feature-copy { order: 2; }
+    .feature-row.reverse .screenshot { order: 1; }
+    .feature-copy { max-width: 440px; }
+    .feature-copy h2 { font-size: clamp(2.35rem, 3.8vw, 4rem); margin-bottom: 18px; }
+    .feature-copy p { color: var(--muted); font-size: 17px; }
+    .feature-copy .detail { margin-top: 24px; padding-left: 18px; border-left: 2px solid var(--gold); color: var(--pine-soft); font: 500 16px/1.45 var(--serif); }
+    .screenshot { position: relative; min-height: 500px; display: grid; place-items: center; }
+    .screenshot::before { content: ""; position: absolute; width: 410px; height: 410px; border: 1px solid rgba(199,155,68,.55); border-radius: 50%; }
+    .screenshot img { position: relative; z-index: 1; width: min(266px, 67%); border: 6px solid #192e24; border-radius: 34px; box-shadow: 0 24px 45px rgba(22,49,36,.16); }
+    .feature-row.reverse .screenshot img { transform: rotate(-3deg); }
+    .feature-row:not(.reverse) .screenshot img { transform: rotate(3deg); }
+
+    .private { color: var(--white); background: var(--pine); }
+    .private-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 80px; align-items: center; padding: 94px 0; }
+    .private h2 { max-width: 530px; margin-bottom: 18px; }
+    .private p { max-width: 510px; margin-bottom: 0; color: rgba(255,253,248,.73); font-size: 17px; }
+    .private-facts { margin: 0; padding: 0; list-style: none; border-top: 1px solid rgba(255,253,248,.25); }
+    .private-facts li { padding: 20px 0; border-bottom: 1px solid rgba(255,253,248,.25); font: 500 20px/1.25 var(--serif); }
+    .private-facts small { display: block; margin-top: 4px; color: rgba(255,253,248,.65); font: 400 14px/1.4 var(--sans); }
+
+    .closing { position: relative; overflow: hidden; padding: 118px 0 104px; text-align: center; }
+    .closing::before { content: ""; position: absolute; width: 770px; height: 770px; top: -430px; left: 50%; border-radius: 50%; background: rgba(199,155,68,.17); transform: translateX(-50%); }
+    .closing > * { position: relative; }
+    .closing h2 { max-width: 720px; margin: 0 auto 23px; }
+    .closing p { max-width: 470px; margin: 0 auto 28px; color: var(--muted); }
+    .site-header a:focus-visible, .hero a:focus-visible, .private a:focus-visible { outline-color: #f5cc68; }
+    .closing-note { margin-top: 14px !important; font-size: 14px; }
+
+    footer { padding: 34px 0 44px; color: #58675e; border-top: 1px solid var(--line); font-size: 14px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; align-items: center; }
+    .legal { max-width: 760px; margin: 22px 0 0; font-size: 12px; line-height: 1.5; }
+    .footer-links { display: flex; gap: 22px; }
+    .footer-links a { text-underline-offset: 3px; }
+
+    @media (max-width: 1050px) {
+      .hero { min-height: 0; }
+      .hero-grid, .intro-grid, .private-grid { grid-template-columns: 1fr; gap: 40px; }
+      .hero-grid { padding-top: 28px; }
+      .hero-phones { min-height: 555px; max-width: 520px; width: 100%; margin: 0 auto; }
+      .phone-home { left: 50%; transform: translateX(-50%) rotate(2.3deg); }
+      .intro { padding: 86px 0 75px; }
+      .feature-row { grid-template-columns: 1fr; gap: 30px; padding: 72px 0; }
+      .feature-row.reverse .feature-copy, .feature-row.reverse .screenshot { order: initial; }
+      .feature-row.reverse .feature-copy { order: 0; }
+      .feature-row.reverse .screenshot { order: 1; }
+      .feature-copy { max-width: 560px; }
+      .screenshot { min-height: 460px; }
+      .private-grid { padding: 74px 0; }
+    }
+    @media (max-width: 540px) {
+      .wrap { width: min(100% - 32px, 1180px); }
+      .nav { min-height: 76px; }
+      .nav-links { gap: 16px; font-size: 13px; }
+      .nav-links a:first-child { display: none; }
+      h1 { font-size: clamp(2.85rem, 12.8vw, 3.4rem); }
+      .hero-grid { gap: 24px; }
+      .hero-copy { padding-bottom: 0; }
+      .hero-copy > p:not(.app-note) { font-size: 17px; }
+      .hero-phones { min-height: 468px; }
+      .phone { border-width: 5px; border-radius: 27px; }
+      .phone-home { width: 224px; top: 14px; }
+      .phone-gifts { width: 155px; left: 0; bottom: 7px; }
+      .phone-budget { width: 155px; right: 0; bottom: 17px; }
+      h2 { font-size: 2.65rem; }
+      .intro-grid { gap: 36px; }
+      .showcase { padding-bottom: 74px; }
+      .feature-row { padding: 60px 0; }
+      .screenshot { min-height: 380px; }
+      .screenshot::before { width: 300px; height: 300px; }
+      .private-grid { gap: 36px; }
+      .closing { padding: 80px 0 74px; }
+      .footer-inner { display: block; }
+      .footer-links { margin-top: 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
+  </style>
 </head>
 <body>
-  <main>
-    <header>
-      <img class="brandmark" src="apple-touch-icon.png" alt="" width="72" height="72">
-      <h1>Tinsel List</h1>
-      <p class="tagline">Your Christmas gift list, from idea to wrapped.</p>
-      <p>Remember who you’ve bought for, what’s still on the way, and how much you’ve spent.</p>
-      <a class="download" href="https://apps.apple.com/us/app/tinsel-list-christmas-planner/id6808198540">Get Tinsel List on the App Store</a>
-      <p class="purchase-note">One-time purchase. No subscription.<br>For iPhone with iOS 17 or later.</p>
-    </header>
+  <header class="site-header">
+    <div class="wrap">
+      <nav class="nav" aria-label="Main navigation">
+        <a class="brand" href="#top"><img src="apple-touch-icon.png" alt="" width="38" height="38">Tinsel List</a>
+        <div class="nav-links">
+          <a href="#made-for-december">What it keeps</a>
+          <a href="https://apps.apple.com/us/app/tinsel-list-christmas-planner/id6808198540">App Store</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <main id="top">
+  <section class="hero" aria-labelledby="page-title">
+    <div class="hero-grid wrap">
+      <div class="hero-copy">
+        <span class="gold-rule"></span>
+        <h1 id="page-title">Your Christmas list, from idea to wrapped.</h1>
+        <p>Remember who you’ve bought for, what’s still on the way, and how much you’ve spent. All together on your iPhone.</p>
+        <a class="badge" href="https://apps.apple.com/us/app/tinsel-list-christmas-planner/id6808198540" aria-label="Download Tinsel List on the App Store"><img src="app-store-badge.svg" alt="Download on the App Store"></a>
+        <p class="app-note">One-time purchase. No subscription.<br>For iPhone with iOS 17 or later.</p>
+      </div>
+      <div class="hero-phones" aria-label="Tinsel List app screens">
+        <figure class="phone phone-gifts"><img width="1206" height="2622" src="assets/gifts-general-light.webp" alt="Gift list with purchased, planned and wrapped states."></figure>
+        <figure class="phone phone-home"><img fetchpriority="high" width="1206" height="2622" src="assets/home-light.webp" alt="Tinsel List home screen with Christmas countdown and progress for presents, food and decorations."></figure>
+        <figure class="phone phone-budget"><img width="1206" height="2622" src="assets/budget-overall-light.webp" alt="Budget screen showing spending, planned spending and remaining amount."></figure>
+      </div>
+    </div>
+  </section>
 
-    <p>
-      Save gift ideas with notes or photos. File them by person, then move
-      them into your buying plan when you’re ready.
-    </p>
+  <section class="intro" id="made-for-december">
+    <div class="wrap intro-grid">
+      <h2>For everyone you’re buying for.</h2>
+      <div class="intro-copy">
+        <p>Save a gift idea with a photo or note and keep it with the right person. When you’re ready to buy, move it into your Christmas plan.</p>
+        <p>Keep the little details close at hand, from a present you’ve hidden away to a thank-you you still need to send.</p>
+      </div>
+    </div>
+  </section>
 
-    <figure class="app-preview">
-      <img src="gift-budgets.png" alt="Tinsel List’s Budget screen showing spending, planned amounts and dollar budgets for each person." width="1290" height="2796" loading="lazy">
-      <figcaption>See spending and planned purchases for each person. Example data shown.</figcaption>
-    </figure>
+  <section class="showcase" aria-label="Tinsel List features">
+    <div class="wrap">
+      <article class="feature-row" id="gifts">
+        <div class="feature-copy">
+          <h2>Know what still needs wrapping.</h2>
+          <p>Mark gifts purchased, ordered, arrived, wrapped and given as you go. See what’s left to do for each person without searching through notes.</p>
+        </div>
+        <figure class="screenshot">
+          <img loading="lazy" width="1206" height="2622" src="assets/gifts-general-light.webp" alt="Tinsel List showing planned and purchased presents by person.">
+        </figure>
+      </article>
+      <article class="feature-row reverse" id="budget">
+        <div class="feature-copy">
+          <h2>See what you’ve spent.</h2>
+          <p>Set a budget for each person. Add estimated prices while you plan, then record what you actually paid. See your spending and planned purchases together.</p>
+          <p class="detail">Example plan shown in British pounds.</p>
+        </div>
+        <figure class="screenshot">
+          <img loading="lazy" width="1206" height="2622" src="assets/budget-overall-light.webp" alt="Tinsel List budget summary with total, spent, planned and remaining amounts.">
+        </figure>
+      </article>
+      <article class="feature-row" id="cards">
+        <div class="feature-copy">
+          <h2>Keep next year’s card list.</h2>
+          <p>Make a card list for the people you write to, store their addresses, and mark cards sent. Keep track of received gifts and thank-yous too.</p>
+        </div>
+        <figure class="screenshot">
+          <img loading="lazy" width="1206" height="2622" src="assets/cards-list-light.webp" alt="Tinsel List card list showing names and which cards have been sent.">
+        </figure>
+      </article>
+    </div>
+  </section>
 
-    <ul>
-      <li>Keep card addresses for next Christmas and reset the sent ticks when you start a new plan.</li>
-      <li>Optional Face ID or passcode lock, so presents stay secret on a borrowed phone.</li>
-      <li>Received presents and thank-you notes, ticked off as they go out.</li>
-      <li>A flip-clock countdown that switches to presents still to buy as the day nears.</li>
-      <li>Planning data stored on your iPhone. No accounts, ads or tracking.</li>
-    </ul>
+  <section class="private" aria-labelledby="private-title">
+    <div class="wrap private-grid">
+      <div>
+        <span class="gold-rule"></span>
+        <h2 id="private-title">Keep the presents a surprise.</h2>
+        <p>Tinsel List works offline and needs no account. Add an optional Face ID or passcode lock to keep presents private. Encrypted backup lets you take your plans to a new phone.</p>
+      </div>
+      <ul class="private-facts">
+        <li>No account<small>No email address or profile required.</small></li>
+        <li>No ads or in-app purchases<small>A focused iPhone app with no subscription.</small></li>
+        <li>Encrypted backup<small>Export and restore your plans when you choose.</small></li>
+      </ul>
+    </div>
+  </section>
 
-    <nav>
-      <a href="https://tinsellist.app/privacy">Privacy policy</a>
-      <a href="https://tinsellist.app/support">Support</a>
-    </nav>
+  <section id="download" class="closing" aria-labelledby="closing-title">
+    <div class="wrap">
+      <h2 id="closing-title">Ready for your first gift idea?</h2>
+      <p>Keep this Christmas together with Tinsel List.</p>
+      <a class="badge" href="https://apps.apple.com/us/app/tinsel-list-christmas-planner/id6808198540" aria-label="Download Tinsel List on the App Store"><img src="app-store-badge.svg" alt="Download on the App Store"></a>
+      <p class="closing-note">iPhone, iOS 17 or later</p>
+    </div>
+  </section>
   </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>© Tinsel List</span>
+      <div class="footer-links"><a href="privacy.html">Privacy</a><a href="support.html">Support</a></div>
+    </div>
+    <div class="wrap"><p class="legal">Apple and the Apple logo are trademarks of Apple Inc., registered in the U.S. and other countries. App Store is a service mark of Apple Inc.</p></div>
+  </footer>
 </body>
 </html>
